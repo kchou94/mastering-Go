@@ -11,5 +11,4 @@ func main() {
 	a2 := [...]string{"b1", "b2", "b3"}
 	ats := ats(a1[:], a2[:])
 	fmt.Println(ats)
-	fmt.Println(append(a1, a2))
 }
