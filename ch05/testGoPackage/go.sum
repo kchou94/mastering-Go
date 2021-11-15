@@ -1,0 +1,4 @@
+github.com/bernylinville/post05 v0.0.0-20211115081205-0e23d275a31e h1:CvqKP4Pz3/xkh4YPWbKx9Mdz95Z32jAm0nztu22BsUs=
+github.com/bernylinville/post05 v0.0.0-20211115081205-0e23d275a31e/go.mod h1:iOpDKiSHhYDVGXmBkHPW6nCvyUxV0FjZ7LgPEVM/utk=
+github.com/lib/pq v1.10.4 h1:SO9z7FRPzA03QhHKJrH5BXA6HU1rS4V2nIVrrNC1iYk=
+github.com/lib/pq v1.10.4/go.mod h1:AlVN5x4E4T544tWzH6hKfbfQvm3HdbOxrmggDNAPY9o=
