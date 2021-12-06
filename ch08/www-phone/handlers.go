@@ -42,3 +42,80 @@ func deleteHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w, "%s", Body)
 }
+
+func listHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("Serving request:", r.URL.Path, "from", r.Host)
+	w.WriteHeader(http.StatusOK)
+	Body := list()
+	fmt.Fprintf(w, "%s", Body)
+}
+
+func statusHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("Serving request:", r.URL.Path, "from", r.Host)
+	w.WriteHeader(http.StatusOK)
+	Body := fmt.Sprintf("Total entries: %d\n", len(data))
+	fmt.Fprintf(w, "%s", Body)
+}
+
+func insertHandler(w http.ResponseWriter, r *http.Request) {
+	// Split URL
+	paramStr := strings.Split(r.URL.Path, "/")
+	fmt.Println("Path:", paramStr)
+	if len(paramStr) < 5 {
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintf(w, "Not enough arguments"+r.URL.Path)
+		return
+	}
+
+	name := paramStr[2]
+	surname := paramStr[3]
+	tel := paramStr[4]
+
+	t := strings.ReplaceAll(tel, "-", "")
+	if !matchTel(t) {
+		fmt.Println("Invalid telephone number:", tel)
+		return
+	}
+
+	temp := &Entry{name, surname, t}
+	err := insert(temp)
+	if err != nil {
+		w.WriteHeader(http.StatusNotModified)
+		Body := "Failed to add record\n"
+		fmt.Fprintf(w, "%s", Body)
+	} else {
+		log.Println("Serving request:", r.URL.Path, "from", r.Host)
+		Body := "New record added\n"
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprintf(w, "%s", Body)
+	}
+
+	log.Println("Serving request:", r.URL.Path, "from", r.Host)
+}
+
+func searchHandler(w http.ResponseWriter, r *http.Request) {
+	// Get Search value  from URL
+	paramStr := strings.Split(r.URL.Path, "/")
+	fmt.Println("Path:", paramStr)
+
+	if len(paramStr) < 3 {
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintln(w, "not found: "+r.URL.Path)
+		return
+	}
+
+	var Body string
+	telephone := paramStr[2]
+
+	t := search(telephone)
+	if t == nil {
+		w.WriteHeader(http.StatusNotFound)
+		Body = "Could not be found: " + telephone + "\n"
+	} else {
+		w.WriteHeader(http.StatusOK)
+		Body := t.Name + " " + t.Surname + " " + t.Tel + "\n"
+	}
+
+	fmt.Println("Serving request:", r.URL.Path, "from", r.Host)
+	fmt.Fprintf(w, "%s", Body)
+}
