@@ -77,7 +77,7 @@ func insertHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	temp := &Entry{name, surname, t}
+	temp := &Entry{Name: name, Surname: surname, Tel: t}
 	err := insert(temp)
 	if err != nil {
 		w.WriteHeader(http.StatusNotModified)
@@ -94,13 +94,13 @@ func insertHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func searchHandler(w http.ResponseWriter, r *http.Request) {
-	// Get Search value  from URL
+	// Get Search value from URL
 	paramStr := strings.Split(r.URL.Path, "/")
 	fmt.Println("Path:", paramStr)
 
 	if len(paramStr) < 3 {
 		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprintln(w, "not found: "+r.URL.Path)
+		fmt.Fprintln(w, "Not found: "+r.URL.Path)
 		return
 	}
 
@@ -113,7 +113,7 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 		Body = "Could not be found: " + telephone + "\n"
 	} else {
 		w.WriteHeader(http.StatusOK)
-		Body := t.Name + " " + t.Surname + " " + t.Tel + "\n"
+		Body = t.Name + " " + t.Surname + " " + t.Tel + "\n"
 	}
 
 	fmt.Println("Serving request:", r.URL.Path, "from", r.Host)

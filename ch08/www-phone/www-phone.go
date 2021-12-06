@@ -98,7 +98,7 @@ func insert(pS *Entry) error {
 	// If it already exists, do not add it
 	_, ok := index[(*pS).Tel]
 	if ok {
-		return fmt.Errorf("%s already exists", (*pS).Tel)
+		return fmt.Errorf("%s already exists", pS.Tel)
 	}
 
 	*&pS.LastAccess = strconv.FormatInt(time.Now().Unix(), 10)
@@ -176,7 +176,7 @@ func main() {
 		WriteTimeout: time.Second,
 	}
 
-	mux.handle("/list", http.HandlerFunc(listHandler))
+	mux.Handle("/list", http.HandlerFunc(listHandler))
 	mux.Handle("/insert/", http.HandlerFunc(insertHandler))
 	mux.Handle("/insert", http.HandlerFunc(insertHandler))
 	mux.Handle("/search", http.HandlerFunc(searchHandler))
